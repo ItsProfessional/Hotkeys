@@ -1,8 +1,12 @@
-﻿#SingleInstance Force
+﻿; NOTE: This only works if you have the Proton Square userchrome.css style applied. I made these scripts specifically for MY workflow, and I could not be bothered to change the colors to make it compatibile with vanilla firefox.
+; https://github.com/leadweedy/Firefox-Proton-Square
+
+#SingleInstance Force
 CoordMode, Pixel, Screen
 ; CoordMode, Mouse, Screen
 
 #IfWinActive ahk_class MozillaWindowClass
+Esc::
 ~^l::
 WinGetPos, X, Y, W, H, A
 
