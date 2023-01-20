@@ -6,6 +6,7 @@ SetWorkingDir(A_WorkingDir)
 #Include "NoAltMenuAcceleration.ahk"
 ; #Include "NoRenameConfirmation.ahk"
 ; #Include "MButtonCollapseDownloadsBar.ahk"
+; #Include "EscapeToUnfocusAddressbar.ahk"
 
 ; Alt+W -> Alt+F4
 !w::
@@ -19,9 +20,26 @@ GroupAdd "Explorer", "ahk_class Progman"
 GroupAdd "Explorer", "ahk_class WorkerW"
 GroupAdd "Explorer", "ahk_class #32770"
 
-HotIfWinActive "ahk_group Explorer"
+#HotIf WinActive("ahk_group Explorer")
 ;; Ctrl+N -> New folder (ctrl+shift+n)
-^n::
-{
-Send "^+n"
-}
+^n::^+n
+#HotIf
+
+
+#HotIf WinActive("ahk_exe firefox.exe")
+;; Ctrl+Shift+N -> New Private Window (ctrl+shift+p)
+^+n::^+p
+
+; Hide controls with Ctrl+M
+^m::^!+m
+^+m::^m
+
+; ^j::
+; {
+; SetTitleMatchMode "RegEx"
+; var := WinGetTitle("YouTube\+\+$")
+; msgbox(var)
+; }
+
+
+#HotIf

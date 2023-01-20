@@ -9,9 +9,12 @@ SetWorkingDir(A_WorkingDir)
 
 #HotIf WinActive("ahk_class GLFW30")
 
-
 ; Check if window is actually minecraft
-title := WinGetTitle("ahk_class GLFW30")
+try {
+	title := WinGetTitle("A")
+} catch as exc
+	title := ""
+
 If(!(InStr(title, "Minecraft"))) {
 	return
 }
@@ -20,17 +23,6 @@ If(!(InStr(title, "Minecraft"))) {
 
 
 ; FUNCTIONS
-
-TabEnter() {
-; If respawn button is greyed out, wait
-; CoordMode("Pixel", "Screen")
-if(PixelGetColor(1030, 434) = 0x2A2A2A)
-	Sleep 1000
-
-Send "{Tab}"
-Sleep 100
-Send "{Enter}"
-}
 
 OnGameMenu(){
 ; CoordMode "Pixel"
@@ -63,19 +55,19 @@ catch as exc
 Numpad0::
 {
 Send "{F3 Down}{F4 Down}"
-Sleep 100
+Sleep 400
 }
 Numpad0 Up::
 {
 Send "{F3 Up}{F4 Up}"
 }
-;; numpad0 end
+;; Numpad0
 
 
 
 
 
-; Numpad1 -> F3 (Debug menu
+; Numpad1 -> F3 (Debug menu)
 Numpad1::
 {
 Send "{F3 Down}"
@@ -97,7 +89,6 @@ Numpad2::
 {
 ; F3 + D
 Send "{F3 Down}{D Down}"
-Sleep 100
 Send "{F3 Up}{D Up}"
 
 }
@@ -111,48 +102,23 @@ Send "{F3 Up}{D Up}"
 Numpad3::
 {
 ; Return if world is already open to LAN or playing multiplayer
-title := WinGetTitle("ahk_class GLFW30")
+title := WinGetTitle("A")
 If(!(InStr(title, "Singleplayer"))) {
 	return
 }
 
 Send "{Esc}"
-Sleep 25
-; CoordMode("Pixel", "Screen")
+Loop 7 {
+	Send "{Tab}"
+}
 
-; MouseMove(1070, 450, 0)
-; Click
-; Sleep 100
-; MouseMove(808, 980, 0)
-; Click
-Send "{Tab}"
-Sleep 25
-Send "{Tab}"
-Sleep 25
-Send "{Tab}"
-Sleep 25
-Send "{Tab}"
-Sleep 25
-Send "{Tab}"
-Sleep 25
-Send "{Tab}"
-Sleep 25
-Send "{Tab}"
-Sleep 25
 
 Send "{Enter}"
-Sleep 25
-
-Send "{Shift Down}{Tab Down}"
-Sleep 25
-Send "{Shift Up}{Tab Up}"
-
-Send "{Shift Down}{Tab Down}"
-Sleep 25
-Send "{Shift Up}{Tab Up}"
-
+Loop 2 {
+	Send "{Shift Down}{Tab Down}"
+	Send "{Shift Up}{Tab Up}"
+}
 Send "{Enter}"
-Sleep 25
 }
 ;; numpad3 end
 
@@ -163,20 +129,16 @@ Sleep 25
 ; Numpad4 -> Enters command `/setblock <targeted_block> ` into chat
 Numpad4::
 {
-; /setblock
 Send "/"
-Sleep 100
+Sleep 40
 SendInput "setblock "
-Sleep 50
 
 ; Autocomplete coordinates
-Send "{Tab}"
-Sleep 25
-Send "{Tab}"
-Sleep 25
-Send "{Tab}"
-Sleep 25
-
+Loop 3 {
+	Send "{Tab}"
+	Send "{Tab}"
+	Send "{Tab}"
+}
 
 Send " " ; Send space
 }
@@ -191,10 +153,10 @@ Send " " ; Send space
 Numpad5::
 {
 Send "/"
-Sleep 100
+Sleep 40
 
 Send "{Up}"
-Sleep 50
+Sleep 8
 Send "{Enter}"
 }
 ;; numpad5 end
@@ -207,17 +169,18 @@ Send "{Enter}"
 ; Numpad6 -> Runs command: `/kill `
 Numpad6::
 {
-Send "/"
-Sleep 100
-SendInput "kill"
-Sleep 50
+	Send "/"
+	Sleep 40
+	SendInput "kill"
+	Send "{Enter}"
+	Sleep 25
 
-
-Send "{Enter}"
-Sleep 25
-
-
-TabEnter()
+	; If respawn button is greyed out, wait
+	if(PixelGetColor(1030, 434) = 0x2A2A2A) {
+		Sleep 1000
+		Send "{Tab}"
+		Send "{Enter}"
+	}
 }
 ;; numpad6 end
 
@@ -227,11 +190,8 @@ TabEnter()
 
 
 
-Numpad7::
-{
-Result := OnGameMenu()
-MsgBox(Result)
-}
+Numpad7::F11
+Numpad8::F1
 
 
 
@@ -248,29 +208,35 @@ MsgBox(Result)
 ; Alt+Y -> Tab + Enter (I use Alt+Y for clicking "respawn" on death screen)
 !y::
 {
-TabEnter()
+; If respawn button is greyed out, wait
+if(PixelGetColor(1030, 434) = 0x2A2A2A)
+	Sleep 1000
+
+; notgreyedout := false
+; While notgreyedout {
+; if(!PixelGetColor(1030, 434) = 0x2A2A2A)
+	; notgreyedout := true
+
+Send "{Tab}"
+Send "{Enter}"
 }
 
 !n::
 {
 ; If respawn button is greyed out, wait
-; CoordMode("Pixel", "Screen")
 if(PixelGetColor(1030, 434) = 0x2A2A2A)
 	Sleep 1000
 
 ; Shift+Tab (Select "Title Screen")
 Send "{Shift Down}{Tab Down}"
-Sleep 100
 Send "{Shift Up}{Tab Up}"
 
 
-Sleep 100
 Send "{Enter}"
-Sleep 1000
+Sleep 25
 
 ; Tab+Enter (Confirm)
 Send "{Tab}"
-Sleep 100
 Send "{Enter}"
 }
 ;; Alt+Y end
@@ -309,21 +275,11 @@ Send "{Enter}"
 ; Send "{Esc}"
 
 ; ; Mods button
-; Sleep 25
-; Send "{Tab}"
-; Sleep 25
-; Send "{Tab}"
-; Sleep 25
-; Send "{Tab}"
-; Sleep 25
-; Send "{Tab}"
-; Sleep 25
-; Send "{Tab}"
-; Sleep 25
-
+; Loop 5 {
+	; Send "{Tab}"
+; }
 
 ; Send "{Enter}"
-; Sleep 25
 ; }
 
 
