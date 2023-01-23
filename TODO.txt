@@ -1,0 +1,11 @@
+Disable respawn button greyed out
+/kill and /clear with hotkeys
+
+WinIconPatcher
+lightshot copy and save
+taskmgr no widget mode
+notepad++ run file mod
+vscode and notepad++ recomment mod
+photoshop ctrl+z hold down mod
+audacity to premiere record
+firefox drag link to address bar

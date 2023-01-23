@@ -4,5 +4,4 @@
 
 SetWorkingDir(A_WorkingDir)
 #Include "Windows/Main.ahk"
-; #Include "Premiere/NoKeyframesDeleteConfirmation.ahk"
 #Include "Minecraft/Main.ahk"
