@@ -1,7 +1,7 @@
-﻿#Requires AutoHotkey v2.0
+﻿#Requires AutoHotkey v1.1
 ; #NoTrayIcon
 #SingleInstance Force
 
-SetWorkingDir(A_WorkingDir)
-#Include "Windows/Main.ahk"
-#Include "Minecraft/Main.ahk"
+#Include %A_ScriptDir%\Windows\Main.ahk
+#Include %A_ScriptDir%\Premiere\Main.ahk
+#Include %A_ScriptDir%\Minecraft\Main.ahk

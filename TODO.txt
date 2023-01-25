@@ -3,9 +3,8 @@ Disable respawn button greyed out
 
 WinIconPatcher
 lightshot copy and save
-taskmgr no widget mode
-notepad++ run file mod
-vscode and notepad++ recomment mod
+code and notepad++ comment space and capitalization (recommenter) fix
 photoshop ctrl+z hold down mod
-audacity to premiere record
 firefox drag link to address bar
+windows cannot create shortcut here, place on desktop fix
+delete parmanently without confirmation F4 or something

@@ -1,10 +1,6 @@
-﻿#Requires Autohotkey v2.0-beta.1+
-; #NoTrayIcon
-#SingleInstance Force
-
-Loop
+﻿#SingleInstance Force
+While, 1
 {
- WinWait("Rename ahk_class #32770")
- WinActivate()
- ControlClick("Button1")
+ WinWaitActive, Rename ahk_class #32770
+ send y
 }

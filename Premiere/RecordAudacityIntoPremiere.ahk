@@ -8,9 +8,9 @@ CoordMode, Mouse, Window
 #IfWinActive ahk_exe Adobe Premiere Pro.exe
 
 NumpadEnter::
-coordmode, pixel, Window
-coordmode, mouse, Window
-coordmode, Caret, Window
+CoordMode, pixel, Window
+CoordMode, mouse, Window
+CoordMode, Caret, Window
 MouseGetPos, xposP, yposP ;------------------stores the cursor's current coordinates at X%xposP% Y%yposP%
 
 ;This (temporarily) blocks the mouse and keyboard from sending any information, which could interfere with the funcitoning of the script.

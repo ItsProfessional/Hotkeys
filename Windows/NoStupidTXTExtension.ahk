@@ -1,79 +1,48 @@
-﻿#Requires Autohotkey v2.0-beta.1+
-; #NoTrayIcon
+﻿; #NoTrayIcon
 #SingleInstance Force
-pid2 := -1
+PIDs := []
 
 Loop
 {
-	WinWait("ahk_class #32770")
-	WinWaitActive("ahk_class #32770")
-	If !WinActive("ahk_exe firefox.exe")
+	WinWait, ahk_class #32770
+	WinWaitActive, ahk_class #32770
+	
+	If !WinActive("ahk_exe firefox.exe") && !WinActive("ahk_exe chrome.exe") && !WinActive("ahk_exe brave.exe") && !WinActive("ahk_exe msedge.exe")
 		Continue
 	
-
-	FocusedHwnd := ControlGetFocus("A")
-	FocusedClassNN := ControlGetClassNN(FocusedHwnd)
 	 
-	global newpid := WinExist("A")
-	if(newpid = pid2)
+	global NewPID := WinExist("A")
+	HasPID := False
+	For Value in PIDs
+	{
+		If(Value = NewPID)
+			HasPID := True
+	}
+	if(HasPID)
 		continue
-	global pid2 := WinExist("A")
+	PIDs.Push([NewPID])
+	
+	
+	
+	ControlGetText, Text, Edit1, A
+
+	SplitPath, Text,,,, Name
+	SplitPath, Text,,, Extension
+
+	
+	SplitPath, Name,,,, NameWithoutSecondExtension ; Get name of the name (to check if the whole text has two extensions)
+	
+	HasMultipleExtensions := Name != NameWithoutSecondExtension
+	If(HasMultipleExtensions && Extension = "txt") { ; The file has multiple extensions and the last extension is "txt"
+		SplitPath, Name,,, RealExtensionNotTXT ; Get the 2nd last extension
+		NewText := NameWithoutSecondExtension . "." . RealExtensionNotTXT ; <name without txt> and the a period(.) and then <2nd last extension>
 		
-	; if(FocusedClassNN = "Button2") {
-	; ControlFocus("Button1")
-	; }
-	 
-	 
-	SendInput("^a")
-	; Send("^c")
-
-	; ClipWait ; optional
-
-	; MyVar := %clipboard%
-	 
-	 
-	OldClip := A_Clipboard
-	A_Clipboard := ""
-	Send("^a^c")
-	ClipWait 1
-	VarForClip := A_Clipboard
-
-	; MsgBox(VarForClip)
-	; Name := SubStr(VarForClip, 1, -4)
-	; Extension := SubStr(VarForClip, -4)
-
-	SplitPath(VarForClip,,,, &Name)
-	SplitPath(VarForClip,,, &Extension)
-	
-	
-	SplitPath(Name,,,, &Name2)
-	If(Name != Name2 && Extension = "txt") {
-		SplitPath(Name,,, &Extension2)
-		Result := Name2 . "." . Extension2
-		A_Clipboard := Result
-		Send("^v")
+		ControlSetText, NewText, Edit1, A
 	}
 	
-	Send("^a")
-	
-	A_Clipboard := OldClip
-	
-	
-	
-	
-	
-	
-	Sleep 25
-	Send("{Tab}")
-	Send("{Right}")
-	Sleep 25
-	SendInput("All Files")
-	Sleep 30
-	Send("+{Tab}")
-	
-	
-	
-	
-	
+	; Switch to a different control and then switch back to Edit1 (to select the text in Edit1, without pressing ^a, since that can cause issues sometimes)
+	ControlFocus, ComboBox2
+	ControlFocus, Edit1
+
 	WinWaitClose
 }
