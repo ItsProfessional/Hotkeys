@@ -1,5 +1,9 @@
-﻿; #NoTrayIcon
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
+
 PIDs := []
 
 Loop
@@ -35,9 +39,9 @@ Loop
 	HasMultipleExtensions := Name != NameWithoutSecondExtension
 	If(HasMultipleExtensions && Extension = "txt") { ; The file has multiple extensions and the last extension is "txt"
 		SplitPath, Name,,, RealExtensionNotTXT ; Get the 2nd last extension
-		NewText := NameWithoutSecondExtension . "." . RealExtensionNotTXT ; <name without txt> and the a period(.) and then <2nd last extension>
-		
-		ControlSetText, NewText, Edit1, A
+		NewText := NameWithoutSecondExtension . "." . RealExtensionNotTXT ; <name without txt> and then a period (.) and then <2nd last extension>
+
+		ControlSetText, Edit1, %NewText%, A
 	}
 	
 	; Switch to a different control and then switch back to Edit1 (to select the text in Edit1, without pressing ^a, since that can cause issues sometimes)

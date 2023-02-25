@@ -38,7 +38,7 @@ CoordMode, mouse, screen
 size := 200
 kolor := 11FF99
 kolor2 := 008833
-showClicks = 0
+showClicks = 1
 
 
 
@@ -79,7 +79,7 @@ timeout := 600
 ; If you scroll a long distance in one session, apply additional boost factor.
 ; The higher the value, the longer it takes to activate, and the slower it accumulates.
 ; Set to zero to disable completely. Default: 30.
-boost := 40
+boost := 30
 
 ; Spamming applications with hundreds of individual scroll events can slow them down.
 ; This sets the maximum number of scrolls sent per click, i.e. max velocity. Default: 60.

@@ -1,11 +1,15 @@
-﻿#SingleInstance Force
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+#SingleInstance Force
+
 #MaxThreadsPerHotkey 2
 
 CoordMode "Pixel"
 
-#include %A_ScriptDir%\Minecraft\AutoCobbleGENAfk.ahk
 
-#IfWinActive, ahk_class GLFW30
+#If WinActive("ahk_class GLFW30") || WinActive("ahk_class ApplicationFrameWindow")
 
 ; Check if window is actually minecraft
 try {
@@ -16,8 +20,6 @@ try {
 If(!(InStr(title, "Minecraft"))) {
 	return
 }
-
-
 
 
 ~Del::
@@ -70,17 +72,22 @@ If !InStr(Title, "Singleplayer")
 	return
 
 Send, {Esc}
+
+; Select "Open to LAN"
 Loop, 7
 	Send, {Tab}
-
-
 Send, {Enter}
-Loop, 2 {
-	Send, {Shift Down}{Tab Down}
-	Send, {Shift Up}{Tab Up}
-}
 
+; Enable "Allow Cheats"
+Loop, 2
+	Send, {Tab}
 Send, {Enter}
+
+; Click "Start LAN World"
+Loop, 3 ; 3 because we have to go back 2 buttons first, since we went 2 buttons forward just previously
+	Send, {Shift Down}{Tab}{Shift Up}
+Send, {Enter}
+
 return
 
 
@@ -146,11 +153,14 @@ Numpad6::
 
 
 
+NumpadHome::
+Numpad7::
+Send, {F3 down}a{F3 up}
+Sleep 45
+return
 
 
-
-
-
+q::1 ; I have 1 assigned to "hotbar slot 1", and want to use q for it but doing that doesn't allow pressing it to move item from creative inventory to hotbar slot 1, thus this line
 
 
 

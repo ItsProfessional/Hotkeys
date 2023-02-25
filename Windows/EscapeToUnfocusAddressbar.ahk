@@ -1,7 +1,12 @@
 ﻿; NOTE: This only works if you have the Proton Square userchrome.css style applied. I made these scripts specifically for MY workflow, and I could not be bothered to change the colors to make it compatibile with vanilla firefox.
 ; https://github.com/leadweedy/Firefox-Proton-Square
 
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
+
 CoordMode, Pixel, Screen
 
 #IfWinActive ahk_class MozillaWindowClass
@@ -45,4 +50,5 @@ Else
 	Send, {Esc}
 
 return
+
 #IfWinActive

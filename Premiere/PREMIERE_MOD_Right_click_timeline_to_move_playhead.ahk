@@ -1,4 +1,9 @@
-#SingleInstance force ; only 1 instance of this script may run at a time.
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+#SingleInstance Force
+
 #InstallMouseHook
 #InstallKeybdHook
 
@@ -7,9 +12,6 @@ CoordMode, Pixel, screen
 
 Menu, Tray, Icon, imageres.dll, 90
 
-;THIS IS A GREAT FIRST SCRIPT FOR AHK NOOBS! IT WORKS WITH VERY LITTLE SETUP. JUST READ THE STUFF BELOW! YAY! 
-;VIDEO EXPLANATION:  https://youtu.be/O6ERELse_QY?t=23m40s
-
 
 ; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ; NOTE THAT YOU MUST ASSIGN \ (backslash) TO "Move playhead to cursor" IN PREMIERE'S KEYBOARD SHORTCUTS PANEL!
@@ -17,19 +19,7 @@ Menu, Tray, Icon, imageres.dll, 90
 ; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-;NOTE: I use the right mouse button for this because my current mouse does not have macro keys on it. I could use the middle mouse button, but it requires too much pressure to push down so often, and you have to be careful not to accidentally scroll it.
-;But if you want to use a button other than the right mouse button, the script becomes a lot simpler. Scroll down to the bottom for that script.
-
-;NOTE: This does not, and cannot work on the timeline where there are no tracks visible.
-;Explanation: https://twitter.com/boxrNathan/status/927371468371103745
-;That is color 0x212121, and last I checked, it shows up in many other places in premiere, not just that part of the timeline.
-;The easy solution is to just fill up your timeline with tracks; have no blank space.
-
-;---------------------------------------------------------------------------------------
-
-;First, we define all the timeline's DEFAULT possible colors.
 ;(Note that your colors will be different if you changed the UI brightness inside preferences > appearance > brightness.)
-;I used Window Spy (it comes with AHK) to detect the exact colors onscreen.
 timeline1 = 0x414141 ;timeline color inside the in/out points ON a targeted track
 timeline2 = 0x313131 ;timeline color of the separating LINES between targeted AND non targeted tracks inside the in/out points
 timeline3 = 0x1b1b1b ;the timeline color inside in/out points on a NON targeted track
@@ -42,8 +32,7 @@ timeline7 = 0xBEBEBE ;the color of a SELECTED blank space on the timeline, IN th
 
 
 
-#IfWinActive ahk_exe Adobe Premiere Pro.exe ;exact name was gotten from windowspy
-;--------EVERYTHING BELOW THIS LINE WILL ONLY WORK INSIDE PREMIERE PRO!----------
+#IfWinActive ahk_exe Adobe Premiere Pro.exe
 
 Rbutton::
 MouseGetPos X, Y
@@ -59,18 +48,12 @@ if (colorr = timeline1 || colorr = timeline2 || colorr = timeline3 || colorr = t
 	; if GetKeyState("$Rbutton") = D ;<--- see, this line did not work AT ALL.
 	if GetKeyState("Rbutton", "P") = 1 ;<----THIS is the only way to phrase this query.
 		{
-		;tooltip, we are inside the IF now
-		;sleep 1000
-		;tooltip,
 		loop
 			{
 			Send \ ;in premiere, this must be set to "move playhead to cursor."
-			; Tooltip, Right click playhead mod! ;you can remove this line if you don't like the tooltip. You don't need it!
 			sleep 16 ;this loop will repeat every 16 milliseconds.
 			if GetKeyState("Rbutton", "P") = 0
 				{
-				;msgbox,,,time to break,1 ;I use message boxes when debugging, and then just comment the out rather than deleting them. It's just like disabling a clip in Premiere.
-				; tooltip,
 				goto theEnd
 				break
 				}
@@ -85,85 +68,3 @@ else
 theEnd:
 Return
 
-
-;If you don't want to use Rbutton (the right mouse button), then you don't need to check for colors and things. This simplifies the script siginificantly.
-;In the following script, You can change "Mbutton" to anything else. like "Xbutton1", or  even "F12" if you wanted.
-;So, assuming you've mapped "move playhead to cursor" to the \ key, the problem is that it fires once, waits 1 second, and only then does it continue to fire.
-;that's why I use a loop - to send constant keypresses, for a smooth experience.
-;SCRIPT HAS NOT YET BEEN TESTED BY ME.
-
-;;;;;Mbutton::\ ;<----this would be the STUPID way of doing this. BAD BAD BAD! do not want!
-; #ifwinactive ahk_exe adobe premiere pro.exe
-; Xbutton2::
-; if GetKeyState("Xbutton2", "P") = 1
-		; {
-		; loop
-			; {
-			; Send \ ;in premiere, this must be set to "move playhead to cursor."
-			; ;Tooltip, button 5 playhead mod!
-			; sleep 16 ;this loop will repeat every 16 milliseconds.
-			; if GetKeyState("Xbutton2", "P") = 0
-				; {
-				; ;msgbox,,,time to break,1
-				; tooltip,
-				; goto theEnd2
-				; break
-				; }
-			; }
-; }
-; theEnd2:
-; Return
-
-
-
-
-
-
-; #IfWinNotActive ahk_exe Adobe Premiere Pro.exe
-
-; ~Rbutton::
-; tellme := isPremiereUnderCursor(yesno)
-; if (tellme = 0)
-	; {
-	; sendinput {Rbutton} ;function as normal. sadly does not maintain the holding down of right click, in cases where it may be important.
-	; return ;do nothing else
-	; }
-; ;tooltip, yes it is
-; send, {mButton} ;middle mouse button will bring focus to Premiere
-; return
-
-
-
-
-
-; isPremiereUnderCursor(yesno := 1)
-; {
-; ;so the issue with this is that if I hit this button while Premiere is active, but the cursor is hovering over some OTHER application, it doesn't know that, and will send these  keystrokes to THAT window. Well, at least it'll send stuff after the left click, to that window.
-; ; ;I need to have it DETECT that you have actually clicked on premiere.
-; MouseGetPos,,,KDE_id
-; WinGet,KDE_Win,MinMax,ahk_id %KDE_id%
-; ; If KDE_Win
-    ; ; return ;I am not sure exactly what this is for
-; ; ;tooltip, %KDE_Win%
-; WinGetClass,fancyclass,ahk_id %KDE_id%
-; ;tooltip, fancyclass = %fancyclass%
-; ;sleep 1000
-; If (fancyclass = "DroverLord - Window Class") ;this is in case you use this on a floating Premiere window NOT connected to the main premiere window!
-	; {
-	; tooltip, on floating window
-	; sleep 100
-	; tooltip,
-	; return 1
-	; }
-; else If (fancyclass != "Premiere Pro")
-	; {
-	; ;tooltip, NOT IN PREMIERE
-	; ;sleep 100
-	; ;tooltip,
-	; ;winactivate?
-	; WinActivate, ahk_id %KDE_id%
-	; return 0
-	; }
-; else
-	; return 1
-; }

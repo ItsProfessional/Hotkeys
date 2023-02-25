@@ -1,14 +1,17 @@
 Menu, Tray, Icon, shell32.dll, 110 ; changes the icon to a 🚫
 
-;SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #InstallKeybdHook
-#NoEnv
-;#NoTrayIcon ;comment this in if you do not want a tray icon.
-#SingleInstance
+
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+#SingleInstance Force
+
 #MaxHotkeysPerInterval 2000
 Process, Priority, , H
-SendMode Input
-#SingleInstance force
+
 
 ;These next two lines are very important. You have to change the "menu mask key" away from being CTRL, to something that won't result in cross-talk. Read this thread to learn the details: https://autohotkey.com/boards/viewtopic.php?f=76&t=57683
 #MenuMaskKey vk07  ; vk07 is unassigned. 

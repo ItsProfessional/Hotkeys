@@ -1,6 +1,10 @@
 ; Note: You have to install this userscript for this script to work
 ; https://pastebin.com/a3qXjyzt
 
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 
 #IfWinActive, ahk_class MozillaWindowClass
@@ -29,3 +33,5 @@ If(xpos >= 249 && ypos >= 43 && ypos <= 67)
 	Clipboard := OldClipboard
 }
 return
+
+#IfWinActive

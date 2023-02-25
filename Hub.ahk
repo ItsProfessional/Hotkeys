@@ -4,10 +4,6 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 
-While, 1
-{
- WinWaitActive, Rename ahk_class #32770
- WinGetTitle, Title, A
- If Title = Rename
-	Send, y
-}
+#Include C:\Hotkeys\Windows\Windows.ahk
+#Include C:\Hotkeys\Premiere\Premiere.ahk
+#Include C:\Hotkeys\Minecraft\Minecraft.ahk

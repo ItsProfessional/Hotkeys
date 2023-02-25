@@ -1,10 +1,18 @@
 Disable respawn button greyed out
 /kill and /clear with hotkeys
 
-WinIconPatcher
 lightshot copy and save
 code and notepad++ comment space and capitalization (recommenter) fix
 photoshop ctrl+z hold down mod
 firefox drag link to address bar
 windows cannot create shortcut here, place on desktop fix
 delete parmanently without confirmation F4 or something
+ability to press number keys without letting go of wasd and ctrl in minecraft
+dont autospam wasd and ctrl when right clicking a bed while walking in minecraft
+f1 to delete file
+f3 to create text file
+after effects reset individual controls, instead of groups, like in premiere
+click play after right click playhead mod if was previous playing in premiere (because right click playhead mod stops it), and make shift right click not do that
+Cause G to switch to timeline first
+gd no cursor for checkpoints
+alt + down in explorer, winrar and 7zip -> enter
