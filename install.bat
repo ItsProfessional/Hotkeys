@@ -12,4 +12,5 @@ exit
 
 :mainScript
 schtasks.exe /create /tn "Hotkeys" /xml Hotkeys.xml
+schtasks /run /tn "Hotkeys"
 pause
