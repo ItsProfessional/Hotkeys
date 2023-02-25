@@ -10,4 +10,4 @@ The Main.ahk script executes the subscripts. I cannot just `#include` all of the
 `Main.ahk` executes all of the scripts, as well as `Hub.ahk`. `Hub.ahk` `#include`s the categorized main scripts, such as `C:\Hotkeys\Windows\Windows.ahk`
 
 ## Disclaimer
-These scripts are written specifically for MY workflow. I will *not* be fixing issues that do not affect me. I will still be merging pull requests though.
+Disclaimer: These scripts are in an early stage, and offered as-is. There will be many bugs. I am not responsible for any damage, loss of data, or thermonuclear wars caused by these scripts.
