@@ -9,7 +9,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 while GetKeyState("Ctrl", "P") && GetKeyState("z", "P")
 {
 	Send, ^z
-	Sleep, 135
+	Sleep, 150
 }
 return
 
@@ -17,6 +17,6 @@ return
 while GetKeyState("Ctrl", "P") && GetKeyState("y", "P")
 {
 	Send, ^y
-	Sleep, 135
+	Sleep, 150
 }
 return

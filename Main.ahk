@@ -24,7 +24,7 @@ Run, Premiere\PREMIERE_MOD_Right_click_timeline_to_move_playhead.ahk
 Run, Premiere\YES_DELETE_EXISTING_KEYFRAMES.ahk
 
 Run, Photoshop\MButtonPanning.ahk
-; Run, Photoshop\PhotoshopHoldUndo.ahk
+Run, Photoshop\PhotoshopHoldUndo.ahk
 
 
 
