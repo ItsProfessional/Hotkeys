@@ -131,9 +131,15 @@ return
 
 #IfWinActive
 
+; The following does not work, I'm still trying to find a fix for it
+; #IfWinActive ahk_exe vmware.exe
 
-#IfWinActive ahk_exe vmware.exe
+; PrintScreen::Send, ^!+{Home} ; In VMware Workstation, the "PrintScreen" key by itself is reserved and cannot be overritten by ShareX, even if it is elevated. So I have Ctrl+Alt+Shift+Home is assigned to "Capture region" as an alternative to PrintScreen (which is my preferred capture region hotkey) and I just map it here.
 
-PrintScreen::Send, ^!+{Home} ; In VMware Workstation, the "PrintScreen" key by itself is reserved and cannot be overritten by ShareX, even if it is elevated. So I have Ctrl+Alt+Shift+Home is assigned to "Capture region" as an alternative to PrintScreen (which is my preferred capture region hotkey) and I just map it here.
+; #IfWinActive
+
+#IfWinActive ahk_exe cmd.exe
+
+^w::Send, !{F4}
 
 #IfWinActive
