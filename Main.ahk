@@ -12,6 +12,7 @@ Run, Windows\EscapeToUnfocusAddressbar.ahk
 Run, Windows\FirefoxBetterDragURLToAddressbar.ahk
 Run, Windows\FullJumplistContextMenu.ahk
 Run, Windows\NoStupidTXTExtension.ahk
+Run, Windows\FlowLauncherNoPlaceholderText.ahk
 
 ; Run, Windows\Alt_menu_acceleration_DISABLER_using_F13.ahk
 ; Run, Windows\Both_Accelerated_Scrolling_1.3_AND_Cursor_click_visualizer-100UI.ahk

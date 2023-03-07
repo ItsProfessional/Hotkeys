@@ -28,6 +28,40 @@ return
 ; Alt+W -> Alt+F4
 !w::!F4
 
+#Space::Suspend ; Disable the win+space language switcher, which I sometimes press by accident.
+
+#t::
+^!t::Run, C:\Windows\System32\cmd.exe, C:\Users\Admin ; Open Command Prompt
+
+
+
+
+
+
+
+; Alt+Esc is a horrible shortcut that I never use, and when I do use it, it's because I pressed it by accident. I thought of remapping it to Alt+Tab, but that won't fix the issue. Thus, I'm removing this keyboard shortcut altogether
+!Esc::Suspend ;!Tab
+!+Esc::Suspend ;!+Tab
+
+; Disable shitty "office key" hotkeys in windows, for more info see here: https://www.howtogeek.com/816348/did-you-know-shiftctrlaltwinl-opens-linkedin-on-windows
+^!#+w::Suspend
+^!#+t::Suspend
+^!#+y::Suspend
+^!#+o::Suspend
+^!#+p::Suspend
+^!#+d::Suspend
+^!#+l::Suspend
+^!#+x::Suspend
+^!#+n::Suspend
+^!#+Space::Suspend
+
+
+; Disable feedback hub hotkey
+#l::Suspend
+
+
+
+
 
 ; everything
 ^#s::
@@ -35,10 +69,10 @@ return
 ^!s::Run, C:\Program Files\Everything\Everything.exe ; Open Everything Search
 
 
-
-#IfWinActive, ahk_exe Taskmgr.exe
-BackSpace::Delete
-#IfWinActive
+; This will prevent you from using backspace in the run box in the task manager, and while I can fix it, I wont. This is because this is a really dumb hotkey/whatever in the first place.
+; #IfWinActive, ahk_exe Taskmgr.exe
+; BackSpace::Delete
+; #IfWinActive
 
 
 #IfWinActive, ahk_exe notepad.exe
