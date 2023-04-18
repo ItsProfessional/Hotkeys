@@ -3,6 +3,7 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
+#NoTrayIcon
 
 #MaxHotkeysPerInterval 2000
 Menu, Tray, Icon, shell32.dll, 303 ; this changes the tray icon to a little check mark!

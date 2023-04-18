@@ -5,7 +5,13 @@
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-#SingleInstance Force
+#SingleInstance, Force
+#NoTrayIcon
+#InstallKeybdHook
+#MaxHotkeysPerInterval 2000
+Process, Priority, , H
+SendMode Input
+
 
 #IfWinActive, ahk_class MozillaWindowClass
 ~LButton::
@@ -22,8 +28,13 @@ If(xpos >= 249 && ypos >= 43 && ypos <= 67)
 	OldClipboard := Clipboard
 	WinGetTitle, BrowserTabTitle
 	Loop, Parse, BrowserTabTitle, §
-	If (A_Index==2)
-	Clipboard := A_LoopField
+		If (A_Index==2)
+		{
+			Clipboard := A_LoopField
+			; Msgbox, %A_LoopField%
+			; msgbox, yay
+			; return
+		}
 	
 	Send, {Esc}
 	Send, ^l

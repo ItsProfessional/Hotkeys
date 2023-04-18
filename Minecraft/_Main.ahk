@@ -18,7 +18,7 @@ try {
 	Title := ""
 
 If(!(InStr(title, "Minecraft"))) {
-	return
+	ExitApp
 }
 
 

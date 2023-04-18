@@ -4,35 +4,62 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance, Force
 Menu, Tray, Icon, shell32.dll, 283
+#InstallKeybdHook
+#MaxHotkeysPerInterval 2000
+Process, Priority, , H
+SendMode Input
+
+;These next two lines are very important. You have to change the "menu mask key" away from being CTRL, to something that won't result in cross-talk. Read this thread to learn the details: https://autohotkey.com/boards/viewtopic.prhp?f=76&t=57683
+#MenuMaskKey vk07 ; vk07 is unassigned.
+#UseHook
 
 
+
+; Main subscripts
 Run, Hub.ahk, %A_ScriptDir%
-Run, Windows\CloseSearchWithWinKey.ahk
-Run, Windows\EscapeToUnfocusAddressbar.ahk
-Run, Windows\FirefoxBetterDragURLToAddressbar.ahk
-Run, Windows\FullJumplistContextMenu.ahk
-Run, Windows\NoStupidTXTExtension.ahk
-Run, Windows\FlowLauncherNoPlaceholderText.ahk
+; #Include C:\Hotkeys\Windows\_Main.ahk
+; #Include C:\Hotkeys\Premiere\_Main.ahk
+; #Include C:\Hotkeys\Minecraft\_Main.ahk
 
-; Run, Windows\Alt_menu_acceleration_DISABLER_using_F13.ahk
-; Run, Windows\Both_Accelerated_Scrolling_1.3_AND_Cursor_click_visualizer-100UI.ahk
-; Run, Windows\MButtonCollapseDownloadsBar.ahk
+
+
+; WINDOWS SCRIPTS
+
+; Makes pressing the win key close windows search, instead of reopening the start menu
+Run, Windows\CloseSearchWithWinKey.ahk
+
+; Makes pressing escape unfocus the search bar, if it is focused in firefox. Just like chromium browsers
+Run, Windows\EscapeToDefocusAddressbar.ahk
+
+; Make it so that when you drag a link to the addressbar, it'll set the addressbar content to that. This happens by default in chromium-based browsers, but in firefox, it just goes to that link. This fixes that
+; Run, Windows\FirefoxBetterDragURLToAddressbar.ahk
+
+; My mouse has started double clicking. As annoying as it is, I'm trying out a software solution by using AHK to add a debounce time, to fix this. I will have to replace this mouse though, at some point, which sucks.
+Run, Windows\MouseDebounce.ahk
+; Run, Windows\BuggyMouse.ahk
+
+; When right-clicking items in the jumplist, always emulate shift+right-click. This adds options like "Open file location", making things more convenient
+Run, Windows\FullJumplistContextMenu.ahk
+
+; Removes the extra ".txt" extension when downloading things in browsers (in chrome atleast). Without this, *.bat files would sometimes be downloaded as *.bat.txt
+Run, Windows\NoStupidTXTExtension.ahk
+
+; Disable ".txt" extension when creating a new text document
 ; Run, Windows\NoPlaceholderText_NewTextDocument.ahk
+
+; Auto-confirm the "Are you sure you want to rename the file extension?" popup
 ; Run, Windows\NoRenameConfirmation.ahk
 
 
-Run, Premiere\PREMIERE_MOD_Right_click_timeline_to_move_playhead.ahk
-Run, Premiere\YES_DELETE_EXISTING_KEYFRAMES.ahk
 
+; PREMIERE PRO SCRIPTS
+; Allows right-clicking the timeline to move playhead
+; Run, Premiere\RightClickTimelineToMovePlayhead.ahk
+; Run, Premiere\AutoConfirmDeleteKeyframes.ahk
+
+; PHOTOSHOP SCRIPTS
 Run, Photoshop\MButtonPanning.ahk
 Run, Photoshop\PhotoshopHoldUndo.ahk
-
-
-
-
-
-
-
 
 
 
@@ -61,28 +88,36 @@ Send, ^s ; save current file in notepad++
 Sleep 10
 
 
-Reload ; reloads this script, the main.ahk which will reload all other scripts.
 
 
-; here I tried to use the runme plugin for notepad++ for getting it to reload the current file dynamically, it does kind of work but its not reliable
-; CoordMode, "Mouse", "Window"
+SetTitleMatchMode, 2
+SetTitleMatchMode, slow
+#WinActivateForce
+DetectHiddenWindows On
 
-; BlockInput, SendAndMouse
-; BlockInput, MouseMove
-; BlockInput, On
+; Close all ahk scripts (except this one)
+Process,Exist
+OWN_ID=%ErrorLevel%
 
-; MouseGetPos xpos, ypos
+Loop
+{
+	Process, Exist, AutoHotkey.exe
+	processId=%ErrorLevel%
+	
+	If processId = %lastId%
+		break
+	IfEqual, processId, 0, Break
+	
+	If OWN_ID != %processId%
+		Process, Close, %processId%
+	
+	lastId = %processId%
+}
 
-; MouseMove, 821, 63, 0
-; Click, Left
+sleep 100
 
-; MouseMove, xpos, ypos, 0
-
-; BlockInput MouseMoveOff
-; BlockInput Off
+Reload ; reloads this script, the main.ahk. which will reload all other scripts.
+Run, Utilities\Beep.ahk ; beep sound
 
 
-; beep sounds
-; Soundbeep, 1000, 500 ; the problem with this is that it pauses the script while beeping, which isn't that big of an issue, but I want to eliminate that completely using a seperate script.
-Run, Utilities\Beep.ahk
 return
