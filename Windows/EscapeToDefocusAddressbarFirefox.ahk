@@ -25,7 +25,7 @@ if(color = 0x2190A7)
 	Send, ^a
 else {
 	Send, ^l
-	sleep 5
+	sleep 15
 	send ^a
 }
 
@@ -44,7 +44,7 @@ if(color = 0x2190A7) { ; addressbar is focused (not the one that shows when typi
 	
 	; if text_selected {
 		; Send, {Esc}
-		; Send, +{F6}
+		; Send, {F6}
 	; } else {
 		; ; Send, ^a
 		; ; Send, {Esc}
@@ -52,9 +52,18 @@ if(color = 0x2190A7) { ; addressbar is focused (not the one that shows when typi
 	
 	
 	Send, {Esc}
+	Send, {Esc}
+	Send, {Esc}
+	Send, {Esc}
 	
-	if text_selected
-		Send, +{F6}	
+	if (text_selected) {
+		; Send, {F6}
+		WinGetPos,,,Xmax,Ymax,A ; get active window size
+		Ycenter := Ymax/2
+		Send, {ALTDOWN}
+		ControlClick, x10 y%Ycenter%, A   ;this is the safest point, I think
+		Send, {ALTUP}
+	}
 
 	; sleep, 100
 	clipboard := ClipSaved ; restore original clipboard
