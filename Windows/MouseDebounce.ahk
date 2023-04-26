@@ -16,7 +16,7 @@ SendMode Input
 ~RButton::return
 ~MButton::return
 
-#If A_PriorHotkey != "" && A_TimeSincePriorHotkey < 10
+#If A_PriorHotkey != "" && A_TimeSincePriorHotkey < 90 ; I previously used "10" as the debounce time, but that isn't enough sometimes
 ; Block hotkeys
 LButton::return
 RButton::return
