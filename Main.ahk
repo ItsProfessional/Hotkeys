@@ -29,7 +29,10 @@ Run, Hub.ahk, %A_ScriptDir%
 Run, Windows\CloseSearchWithWinKey.ahk
 
 ; Makes pressing escape unfocus the search bar, if it is focused in firefox. Just like chromium browsers
-Run, Windows\EscapeToDefocusAddressbar.ahk
+Run, Windows\EscapeToDefocusAddressbarFirefox.ahk
+
+; Deselect text, if selected
+Run, Windows\EscapeToDeselectTextFirefox.ahk
 
 ; Make it so that when you drag a link to the addressbar, it'll set the addressbar content to that. This happens by default in chromium-based browsers, but in firefox, it just goes to that link. This fixes that
 ; Run, Windows\FirefoxBetterDragURLToAddressbar.ahk
