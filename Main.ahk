@@ -17,9 +17,6 @@ SendMode Input
 
 ; Main subscripts
 Run, Hub.ahk, %A_ScriptDir%
-; #Include C:\Hotkeys\Windows\_Main.ahk
-; #Include C:\Hotkeys\Premiere\_Main.ahk
-; #Include C:\Hotkeys\Minecraft\_Main.ahk
 
 
 
@@ -32,7 +29,7 @@ Run, Windows\CloseSearchWithWinKey.ahk
 Run, Windows\EscapeToDefocusAddressbarFirefox.ahk
 
 ; Deselect text, if selected
-Run, Windows\EscapeToDeselectTextFirefox.ahk
+; Run, Windows\EscapeToDeselectTextInBrowser.ahk
 
 ; Make it so that when you drag a link to the addressbar, it'll set the addressbar content to that. This happens by default in chromium-based browsers, but in firefox, it just goes to that link. This fixes that
 ; Run, Windows\FirefoxBetterDragURLToAddressbar.ahk

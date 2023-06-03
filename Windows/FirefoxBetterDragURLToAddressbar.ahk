@@ -10,7 +10,6 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #InstallKeybdHook
 #MaxHotkeysPerInterval 2000
 Process, Priority, , H
-SendMode Input
 
 
 #IfWinActive, ahk_class MozillaWindowClass

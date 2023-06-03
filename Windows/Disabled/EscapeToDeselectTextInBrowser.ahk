@@ -1,7 +1,4 @@
-﻿; NOTE: This only works if you have the Proton Square userchrome.css style applied. I made these scripts specifically for MY workflow, and I could not be bothered to change the colors to make it compatibile with vanilla firefox.
-; https://github.com/leadweedy/Firefox-Proton-Square
-
-#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -10,7 +7,6 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #InstallKeybdHook
 #MaxHotkeysPerInterval 2000
 Process, Priority, , H
-SendMode Input
 
 CoordMode, Pixel, Client
 
@@ -20,6 +16,7 @@ GroupAdd, Browser, ahk_exe chrome.exe
 GroupAdd, Browser, ahk_exe brave.exe
 GroupAdd, Browser, ahk_exe msedge.exe
 GroupAdd, Browser, ahk_exe firefox.exe
+GroupAdd, Browser, ahk_exe Discord.exe ; for discord
 
 #IfWinActive ahk_group Browser
 
@@ -32,20 +29,11 @@ if(color != 0x2190A7 && color != 0x42414D) { ; addressbar is focused (not the on
 	Send, ^c ; copy selected text (if selected)
 	ClipWait, 0.01 ; wait for the clipboard to contain data
 	
-	; if text_selected {
-		; Send, {Esc}
-		; Send, +{F6}
-	; } else {
-		; ; Send, ^a
-		; ; Send, {Esc}
-	; }
-	
-	
 	if text_selected {
 		WinGetPos,,,Xmax,Ymax,A ; get active window size
 		Ycenter := Ymax/2
 		Send, {ALTDOWN}
-		ControlClick, x10 y%Ycenter%, A   ;this is the safest point, I think
+		ControlClick, x10 y%Ycenter%, A ; this is the safest point, I think
 		Send, {ALTUP}
 	}
 

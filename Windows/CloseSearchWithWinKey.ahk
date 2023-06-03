@@ -7,19 +7,21 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #InstallKeybdHook
 #MaxHotkeysPerInterval 2000
 Process, Priority, , H
-SendMode Input
 
 #IfWinActive, ahk_class Windows.UI.Core.CoreWindow
 $LWin::
 $RWin:: ; Close Search with Windows key
 {
 	WinGetTitle, Title, A
-	If(Title = "Search") ; Check whether the active window is the search window
+	if(Title = "Search" or Title = "Start") ; Check whether the active window is the search window
 	{
 		WinClose, A
 	}
-	Else
-		Send, A_PriorHotkey
+	else
+	{
+		NewHotkey := "{" . StrReplace(A_ThisHotkey, "$", "") . "}"
+		Send, %NewHotkey%
+	}
 }
 
 #IfWinActive

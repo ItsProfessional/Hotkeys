@@ -7,7 +7,6 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #InstallKeybdHook
 #MaxHotkeysPerInterval 2000
 Process, Priority, , H
-SendMode Input
 
 #IfWinActive, ahk_class Windows.UI.Core.CoreWindow
 $RButton:: ; Always use Shift + RButton when right clicking on jump lists

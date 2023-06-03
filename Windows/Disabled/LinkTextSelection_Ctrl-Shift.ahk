@@ -7,7 +7,6 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #InstallKeybdHook
 #MaxHotkeysPerInterval 2000
 Process, Priority, , H
-SendMode Input
 
 CoordMode, Mouse, Screen
 GroupAdd, ChromiumBrowser, ahk_exe chrome.exe
