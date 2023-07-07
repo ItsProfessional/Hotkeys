@@ -11,5 +11,3 @@ SendMode Input
 
 #Include C:\Hotkeys\Windows\_Main.ahk
 ; #Include C:\Hotkeys\Premiere\_Main.ahk
-#Include C:\Hotkeys\Games\Minecraft.ahk
-; #Include C:\Hotkeys\Games\GeometryDash.ahk

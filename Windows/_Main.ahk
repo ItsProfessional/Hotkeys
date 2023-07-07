@@ -13,9 +13,11 @@ GroupAdd, Browser, ahk_exe brave.exe
 GroupAdd, Browser, ahk_exe msedge.exe
 GroupAdd, Browser, ahk_exe firefox.exe
 
+GroupAdd, DesktopAndTaskbar, ahk_class Shell_TrayWnd
+GroupAdd, DesktopAndTaskbar, ahk_class Progman
 
 
-;; BEGIN HOTKEYS
+
 
 
 ; Unstick modifier keys. This really comes in handy when I mess something up while testing my ahk script sometimes
@@ -47,25 +49,121 @@ GroupAdd, Browser, ahk_exe firefox.exe
 	return
 
 
-; just some useful stuff
+
+
+
+;; macos hotkeys
+; !left::
+; !right::
+	; KeyWait, %A_ThisHotkey%
+	; NewHotkey := StrReplace(A_ThisHotkey, "!", "")
+	; Send, ^{%NewHotkey%}
+; return
+
+; ^left::
+	; KeyWait, %A_ThisHotkey%
+	; NewHotkey := StrReplace(A_ThisHotkey, "^", "")
+	; Send, {home}
+; return
+
+; ^right::
+	; KeyWait, %A_ThisHotkey%
+	; NewHotkey := StrReplace(A_ThisHotkey, "^", "")
+	; Send, {end}
+; return
+
+
+; ctrl+grave is my clipboard manager (CopyQ). I cannot use win+v as a shortcut in its settings to override the default windows clipboard, when I still do press sometimes. So I map win+v to ctrl+grave which is my CopyQ hotkey to override the default windows clipboard.
+;#v::send, ^{Sc029} ; just #v::^` doesn't work for some reason
+
+
+; Disable hotkeys
+!Esc::return
+!+Esc::return
+#h::return
+#l::return
+^#s::return
+
+; Disable "office" hotkeys in windows: https://www.howtogeek.com/816348/did-you-know-shiftctrlaltwinl-opens-linkedin-on-windows
+^!#+w::
+^!#+t::
+^!#+y::
+^!#+o::
+^!#+p::
+^!#+d::
+^!#+l::
+^!#+x::
+^!#+n::
+^!#+Space::return
+
+; linux hotkeys
+#q:: ; Alt+f4
+	Keywait, lwin
+	Keywait, rwin
+	Send, !{F4}
+return
+
+#d::#r ; run dialog
+
+; remap win+tab to alt+tab
+LWin & Tab::AltTab
+RWin & Tab::AltTab
+
+
+
+; Disable alt menu acceleration
+; ~LAlt::Sendinput {Blind}{F13}
+; ~RAlt::Sendinput {Blind}{F13}
+
+; ; ~LAlt::
+; ; Sendinput {Blind}{F19}
+; ; KeyWait, LAlt
+; ; return
+
+; ; ~RAlt::
+; ; Sendinput {Blind}{F19}
+; ; KeyWait, RAlt
+; ; return
+
+
+
+
+
+
+
+
+
+
+
+; Hotkeys for launching programs
+
+!#\::Run, %A_AppData%\Spotify\Spotify.exe
+!#{::Run, %A_ProgramFiles%\Mozilla Firefox\firefox.exe
+
+!#}:: ; localappdata doesn't exist as a variable in ahk for some reason
+	EnvGet, A_LocalAppData, LocalAppData
+	Run, %A_LocalAppData%\Discord\Update.exe --processStart Discord.exe
+return
+
+; WindowSpy
 ^!k::Run, C:\Program Files\AutoHotkey\WindowSpy.ahk
 
-!+r:: ; Restart explorer
+
+
+
+
+; Restart explorer
+#+r::
 	WinGet, h, ID, ahk_class Progman
 	PostMessage, 0x12, 0, 0, , ahk_id %h%	;wm_quit
 	sleep, 25
-	Run, explorer.EXE
+	Run, explorer.exe
 return
-
-
-!q::!F4 ; Alt+f4
-!d::!space ; Flow launcher ;; I had this set to win+r before
-
 
 
 
 ; Maximize/restore window
-!f::
+#f::
 	IfWinActive ahk_class Shell_TrayWnd
 		return
 	WinGet, style, MinMax, A
@@ -79,7 +177,7 @@ return
 
 
 ; Minimize/restore window
-	!m::
+#m::
 	If !lastWindow || !WinExist("ahk_id " lastWindow)
 	   lastWindow:=WinExist("A")
 	WinGet,MinMax,MinMax,ahk_id %lastWindow%
@@ -92,20 +190,20 @@ Return
 
 
 ; Center window
-!c::
+#c::
 	WinGetPos, , , WinWidth, WinHeight, A
 	WinMove, A,, (A_ScreenWidth - WinWidth) / 2, (A_ScreenHeight - WinHeight) / 2
 return
 
 
 ; Command Prompt
-!+Enter::
-#t::
-^!t::Run, %ComSpec%, %UserProfile%
+#+Enter::
+^!t::
+^#t::
+Run, %ComSpec%, %UserProfile%
 
 
-
-!o:: ; focus previous window
+#o:: ; focus previous window
 	winNumber := 0
 	WinGet win, List
 	
@@ -120,7 +218,7 @@ return
 	WinActivate % winTitle
 return
 
-!`;:: ; alt+semicolon: clear all notifications		 
+#`;:: ; alt+semicolon: clear all notifications		 
 Send #n
 Send {Tab}
 Send {Tab} 
@@ -132,86 +230,43 @@ return
 
 
 ; Everything search
-^!s::Run, C:\Program Files\Everything\Everything.exe
-
-
+^#e::Run, "C:\Program Files\Everything 1.5a\Everything64.exe"
 
 
 ; Alt+{function key} -> Fn+{function key} (simulated)
+	; Brightness
+	#F2::AdjustScreenBrightness(-5)
+	#F3::AdjustScreenBrightness(5)
 
-; Brightness
-!F2::AdjustScreenBrightness(-5)
-!F3::AdjustScreenBrightness(5)
+	; Volume keys
 
-; Volume keys
-
-^!NumpadMult::
-!F6::SoundSet, +1,, Mute ; {Volume_Mute}
-
-
-^!NumpadSub::
-!F7::SoundSet, -3 ; {Volume_Down}
+	^!NumpadMult::
+	#F6::SoundSet, +1,, Mute ; {Volume_Mute}
 
 
-^!NumpadAdd::
-!F8::SoundSet, +3 ; {Volume_Up}
-
-; Media Keys: These don't show any popups, so I just send those keys normally
-^!Space::
-!F9::Send       {Media_Play_Pause}
-
-^!Left::
-!F10::Send      {Media_Prev}
-
-^!Right::
-!F11::Send      {Media_Next}
+	^!NumpadSub::
+	#F7::SoundSet, -3 ; {Volume_Down}
 
 
+	^!NumpadAdd::
+	#F8::SoundSet, +3 ; {Volume_Up}
 
-; QUICK Remap alt+<x> to win+<x>
-!1:: ;; win+number keys
-!2::
-!3::
-!4::
-!5::
-!6::
-!7::
-!8::
-!9:: ;; win+number keys END
-!e:: ; for explorer
-!s:: ; for windows search
-!r:: ; win+r run dialog
-!a:: ; action center
-	KeyWait, %A_ThisHotkey%
-	NewHotkey := StrReplace(A_ThisHotkey, "!", "#")
-	Send, %NewHotkey%
-return
+	; Media Keys: These don't show any popups, so I just send those keys normally
+	^!Space::
+	#F9::Send       {Media_Play_Pause}
+
+	^!Left::
+	#F10::Send      {Media_Prev}
+
+	^!Right::
+	#F11::Send      {Media_Next}
 
 
 
-
-
-
-
-
-
-; Manual, but somewhat compact remapping
-; Note: the reason I use keywait in most of these hotkeys, is because just remapping using key_x::key_y doesn't work because the modifiers of key_x are held while the key_y is being pressed, if that makes sense
-
-!n:: ; win+d -> minimize/restore all windows
-	KeyWait, %A_ThisHotkey%
-	; NewHotkey := StrReplace(A_ThisHotkey, "!", "#")
-	Send, #d
-return
-!+n:: ; win+d -> minimize/restore all windows
-	KeyWait, %A_ThisHotkey%
-	Keywait, alt
-	keywait, shift
-	; NewHotkey := StrReplace(A_ThisHotkey, "!", "#")
-	Send, #n
-return
-!p:: ; alt+p -> prtscr
-	Keywait, alt
+#p:: ; screenshot
+	Keywait, lwin
+	Keywait, rwin
+	
 	; NewHotkey := StrReplace(A_ThisHotkey, "!", "#")
 	Send, {PrintScreen}
 return
@@ -219,19 +274,9 @@ return
 
 
 
-
-
-
-
-
-
-
-
-
-
 ; shutdown/logout/restart/etc tool
 
-!+p::
+#+o::
     ih := InputHook()
     ih.KeyOpt("{All}", "ES")  ; End and Suppress
     ; Exclude the modifiers
@@ -299,139 +344,51 @@ return
 
 
 
-; Hotkeys for launching programs
-
-!+\::Run, %A_AppData%\Spotify\Spotify.exe
-!+{::Run, %A_ProgramFiles%\Mozilla Firefox\firefox.exe
-!+}:: ; localappdata doesn't exist as a variable in ahk for some reason
-	EnvGet, A_LocalAppData, LocalAppData
-	Run, %A_LocalAppData%\Discord\Update.exe --processStart Discord.exe
-return
-
-
-
-
-
-
-
-
-
-
-
-;; macos hotkeys
-; !left::
-; !right::
-	; KeyWait, %A_ThisHotkey%
-	; NewHotkey := StrReplace(A_ThisHotkey, "!", "")
-	; Send, ^{%NewHotkey%}
-; return
-
-; ^left::
-	; KeyWait, %A_ThisHotkey%
-	; NewHotkey := StrReplace(A_ThisHotkey, "^", "")
-	; Send, {home}
-; return
-
-; ^right::
-	; KeyWait, %A_ThisHotkey%
-	; NewHotkey := StrReplace(A_ThisHotkey, "^", "")
-	; Send, {end}
-; return
-
-
-; ctrl+grave is my clipboard manager (CopyQ). I cannot use win+v as a shortcut in its settings to override the default windows clipboard, when I still do press sometimes. So I map win+v to ctrl+grave which is my CopyQ hotkey to override the default windows clipboard.
-;#v::send, ^{Sc029} ; just #v::^` doesn't work for some reason
-
-
-
-
-
-; Disable Alt+Esc as I press it by accident sometimes
-!Esc::return
-!+Esc::return
-
-; I don't want this hotkey
-#h::return
-
-; Disable "office" hotkeys in windows: https://www.howtogeek.com/816348/did-you-know-shiftctrlaltwinl-opens-linkedin-on-windows
-^!#+w::
-^!#+t::
-^!#+y::
-^!#+o::
-^!#+p::
-^!#+d::
-^!#+l::
-^!#+x::
-^!#+n::
-^!#+Space::return
-
-
-; Disable feedback hub hotkey
-#l::return
-
-
-; Remap capslock to escape
-; CapsLock::Escape ; note: I moved this to sharpkeys
-+CapsLock::CapsLock
-+Esc::CapsLock ; I need this because of sharpkeys remapping capslock to escape
-^+Esc::^+Esc ; the above lines mess up the ctrl+shift+esc hotkey that launches taskmgr, so I need to add this here
-
-
-
-
-; Disable alt menu acceleration
-; ~LAlt::Sendinput {Blind}{F13}
-; ~RAlt::Sendinput {Blind}{F13}
-
-; ; ~LAlt::
-; ; Sendinput {Blind}{F19}
-; ; KeyWait, LAlt
-; ; return
-
-; ; ~RAlt::
-; ; Sendinput {Blind}{F19}
-; ; KeyWait, RAlt
-; ; return
-
 
 
 ; Individual program hotkeys
 
 
-;;; GD
+; Geometry Dash
 #IfWinActive, ahk_exe GeometryDash.exe
-RButton::LButton ; Make right click also work in GD
 
-; for switching levels in the level selector
-h::left
-l::right
+	; RButton::LButton
 
-#IfWinActive ;;; GD END
+	; for switching levels in the level selector
+	; h::left
+	; l::right
+	
 
-
-
-
+#IfWinActive
 
 
+; SystemInformer
+#IfWinActive, ahk_exe SystemInformer.exe
 
-
-;;; VSCODIUM
-app = %ProgramFiles%\Windhawk\UI\VSCodium.exe
-#If WinActive("ahk_exe" app)
-^+b::^b
-#If ;;; VSCODIUM END
+	; because of my browser instinct
+	^l::^k
+	
+#IfWinActive
 
 
 
-;;; FIREFOX
+
+
+; VSCodium
+vsc = %ProgramFiles%\Windhawk\UI\VSCodium.exe
+#If WinActive("ahk_exe" vsc)
+	^+b::^b
+#If
+
+
+
+; Firefox
 #IfWinActive, ahk_exe firefox.exe ; Firefox specific hotkeys
-^+n::^+p ; And also make ctrl+shift+n work in firefox aswell
-#IfWinActive ;;; FIREFOX END
 
-
-
-
-
+	; make ctrl+shift+n work in firefox aswell
+	^+n::^+p
+	
+#IfWinActive
 
 
 
@@ -517,16 +474,18 @@ Esc::return ; Don't close flow launcher settings when clicking escape
 ; GROUPED PROGRAM HOTKEYS
 
 
-;;; EXPLORER
+; Explorer
 #IfWinActive, ahk_group Explorer
 	
-	!+enter::!enter ; Alt+shift+enter should open file properties dialog. I need this because I remapped alt+enter to launch cmd
+	; Alt+shift+enter should open file properties dialog. I need this because I remapped alt+enter to launch cmd
+	!+enter::!enter
 
-#IfWinActive ;;; EXPLORER END
+#IfWinActive
 
 
 
-#If WinActive("ahk_class Progman") || WinActive("ahk_exe regedit.exe") ; Desktop and regedit
+; Desktop and regedit
+#If WinActive("ahk_class Progman") || WinActive("ahk_exe regedit.exe")
 
 	; Make Ctrl+R (refresh) also work on the desktop and regedit
 	^r::
@@ -534,16 +493,17 @@ Esc::return ; Don't close flow launcher settings when clicking escape
 		Send, {F5} ; F5 also refreshes
 	return
 
-#If ; DESKTOP AND REGEDIT END
+#If
 
 
 
 
 
 
-#IfWinActive, ahk_class Progman ; Desktop
+; Desktop
+#IfWinActive, ahk_group DesktopAndTaskbar
 
-	!q:: ; alt+q is remapped to alt+f4 above
+	#q:: ; alt+q is remapped to alt+f4 above
 	!F4::return ; No Alt+F4 shutdown dialog on desktop
 
 #IfWinActive ; DESKTOP END
@@ -552,7 +512,7 @@ Esc::return ; Don't close flow launcher settings when clicking escape
 
 
 
-;;;; HOTKEYS FOR ALL BROWSERS
+; All browsers
 #IfWinActive, ahk_group Browser
 
 
@@ -606,7 +566,7 @@ Esc::return ; Don't close flow launcher settings when clicking escape
 
 
 
-	;;;;; DESELECT HIGHLIGHTED TEXT
+	; Deselect selected text
 	^Esc::
 	!Esc::
 
@@ -637,17 +597,9 @@ Esc::return ; Don't close flow launcher settings when clicking escape
 
 
 #IfWinActive
-;;;; Hotkeys for ALL BROWSERS END
 
 
-
-
-
-; GROUPED PROGRAM HOTKEYS END
-#IfWinActive
-#IfWinActive
-#IfWinActive
-#IfWinActive
+#IfWinActive ; Grouped program hotkeys
 
 
 
